@@ -9,9 +9,9 @@ class Formula
   BASE_DIR = File.dirname(File.expand_path("../", __FILE__)).freeze
   GITHUB_TOKEN = ENV["GITHUB_TOKEN"].freeze
 
-  VERSION_REGEXP = /^(\s*)version\s'([^']+)'$/i.freeze
-  URL_REGEXP     = /\A(\s*)url '([^']+)'\z/.freeze
-  DIGEST_REGEXP  = /\A(\s*)sha256 '([a-fA-F0-9]+)'\z/.freeze
+  VERSION_REGEXP = /^(\s*)version\s"([^"]+)"$/i.freeze
+  URL_REGEXP     = /\A(\s*)url "([^"]+)"\z/.freeze
+  DIGEST_REGEXP  = /\A(\s*)sha256 "([a-fA-F0-9]+)"\z/.freeze
 
   VERSION_TAG_REGEXP = /\Av((\d+)\.(\d+)\.(\d+))\z/.freeze
 
@@ -68,7 +68,7 @@ class Formula
   def update_version!(next_version)
     puts "  ----> #{self.version} → #{next_version}"
     replace @body, VERSION_REGEXP do |m|
-      "#{m[1]}version '#{next_version}'"
+      "#{m[1]}version \"#{next_version}\""
     end
   end
 
@@ -78,7 +78,7 @@ class Formula
         replace line, URL_REGEXP do |m|
           new_url = m[2].sub(/\/v\d+\.\d+\.\d+\//, "/v#{next_version}/")
           puts "  ----> #{m[2]} → #{new_url}"
-          "#{m[1]}url '#{new_url}'"
+          "#{m[1]}url \"#{new_url}\""
         end
       end
       line
@@ -102,7 +102,7 @@ class Formula
           puts "done"
           replace digest_line, DIGEST_REGEXP do |m|
             puts "  ----> #{m[2]} → #{digest}"
-            "#{m[1]}sha256 '#{digest}'"
+            "#{m[1]}sha256 \"#{digest}\""
           end
           lines[index] = digest_line
         end

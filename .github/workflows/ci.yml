@@ -26,6 +26,11 @@ jobs:
         if: steps.cache.outputs.cache-hit != 'true'
         run: brew install-bundler-gems
       # Here we can run various brew tasks
+      ### mkr
       - run: brew audit --strict --online ${{ github.repository }}/mkr || true
       - run: brew install ${{ github.repository }}/mkr
       - run: brew test ${{ github.repository }}/mkr
+      ### mackerel-agent
+      - run: brew audit --strict --online ${{ github.repository }}/mackerel-agent || true
+      - run: brew install ${{ github.repository }}/mackerel-agent
+      - run: brew test ${{ github.repository }}/mackerel-agent

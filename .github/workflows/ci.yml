@@ -27,3 +27,5 @@ jobs:
         run: brew install-bundler-gems
       # Here we can run various brew tasks
       - run: brew audit --strict --online ${{ github.repository }}/mkr || true
+      - run: brew install ${{ github.repository }}/mkr
+      - run: brew test ${{ github.repository }}/mkr

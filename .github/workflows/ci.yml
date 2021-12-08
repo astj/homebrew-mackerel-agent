@@ -7,30 +7,27 @@ on:
       #- master
 
 jobs:
-  test:
+  audit-mkr:
     runs-on: macos-latest
     steps:
-      # https://github.com/Homebrew/actions/tree/master/setup-homebrew
-      # This will clone this repo into $(brew --repo "$GITHUB_REPOSITORY")
-      - name: Set up Homebrew
-        id: set-up-homebrew
-        uses: Homebrew/actions/setup-homebrew@master
-      - name: Cache Homebrew Bundler RubyGems
-        id: cache
-        uses: actions/cache@v1
+      - uses: ./.github/actions/brew-audit
         with:
-          path: ${{ steps.set-up-homebrew.outputs.gems-path }}
-          key: ${{ runner.os }}-rubygems-${{ steps.set-up-homebrew.outputs.gems-hash }}
-          restore-keys: ${{ runner.os }}-rubygems-
-      - name: Install Homebrew Bundler RubyGems
-        if: steps.cache.outputs.cache-hit != 'true'
-        run: brew install-bundler-gems
-      # Here we can run various brew tasks
-      ### mkr
-      - run: brew audit --strict --online ${{ github.repository }}/mkr || true
-      - run: brew install ${{ github.repository }}/mkr
-      - run: brew test ${{ github.repository }}/mkr
-      ### mackerel-agent
-      - run: brew audit --strict --online ${{ github.repository }}/mackerel-agent || true
-      - run: brew install ${{ github.repository }}/mackerel-agent
-      - run: brew test ${{ github.repository }}/mackerel-agent
+          formula: mkr
+  test-mkr:
+    runs-on: macos-latest
+    steps:
+      - uses: ./.github/actions/brew-test
+        with:
+          formula: mkr
+  audit-mackerel-agent:
+    runs-on: macos-latest
+    steps:
+      - uses: ./.github/actions/brew-audit
+        with:
+          formula: mackerel-agent
+  test-mackerel-agent:
+    runs-on: macos-latest
+    steps:
+      - uses: ./.github/actions/brew-test
+        with:
+          formula: mackerel-agent

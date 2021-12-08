@@ -1,0 +1,25 @@
+name: Test Homebrew Formula
+description: Installs and tests specified formula
+inputs:
+  formula:
+    description: name of target formula
+    required: true
+runs:
+  using: composite
+  steps:
+    # https://github.com/Homebrew/actions/tree/master/setup-homebrew
+    # This will clone this repo into $(brew --repo "$GITHUB_REPOSITORY")
+    - name: Set up Homebrew
+      id: set-up-homebrew
+      uses: Homebrew/actions/setup-homebrew@master
+    - name: Cache Homebrew Bundler RubyGems
+      id: cache
+      uses: actions/cache@v1
+      with:
+        path: ${{ steps.set-up-homebrew.outputs.gems-path }}
+        key: ${{ runner.os }}-rubygems-${{ steps.set-up-homebrew.outputs.gems-hash }}
+        restore-keys: ${{ runner.os }}-rubygems-
+    - name: Install the Formula
+      run: brew install ${{ github.repository }}/${{ inputs.formula }}
+    - name: Test the Formula
+      run: brew test ${{ github.repository }}/${{ inputs.formula }}

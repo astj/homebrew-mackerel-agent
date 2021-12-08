@@ -10,24 +10,28 @@ jobs:
   audit-mkr:
     runs-on: macos-latest
     steps:
+      - uses: actions/checkout@v2
       - uses: ./.github/actions/brew-audit
         with:
           formula: mkr
   test-mkr:
     runs-on: macos-latest
     steps:
+      - uses: actions/checkout@v2
       - uses: ./.github/actions/brew-test
         with:
           formula: mkr
   audit-mackerel-agent:
     runs-on: macos-latest
     steps:
+      - uses: actions/checkout@v2
       - uses: ./.github/actions/brew-audit
         with:
           formula: mackerel-agent
   test-mackerel-agent:
     runs-on: macos-latest
     steps:
+      - uses: actions/checkout@v2
       - uses: ./.github/actions/brew-test
         with:
           formula: mackerel-agent

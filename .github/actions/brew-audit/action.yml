@@ -22,5 +22,7 @@ runs:
     - name: Install Homebrew Bundler RubyGems
       if: steps.cache.outputs.cache-hit != 'true'
       run: brew install-bundler-gems
+      shell: bash
     - name: Run `brew audit`
       run: brew audit --strict --online ${{ github.repository }}/${{ inputs.formula }}
+      shell: bash

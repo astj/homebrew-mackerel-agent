@@ -22,9 +22,7 @@ class Mkr < Formula
   end
 
   def install
-    if build.head?
-      system "make", "build"
-    end
+    system "make", "build" if build.head?
     bin.install "mkr"
   end
 

@@ -23,9 +23,6 @@ class Mkr < Formula
 
   def install
     if build.head?
-      ENV["GOPATH"] = buildpath/".go"
-      mkdir_p buildpath/".go/src/github.com/mackerelio"
-      ln_s buildpath, buildpath/".go/src/github.com/mackerelio/mkr"
       system "make", "build"
     end
     bin.install "mkr"

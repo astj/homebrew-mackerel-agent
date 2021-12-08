@@ -15,7 +15,7 @@ class Mkr < Formula
   end
 
   head do
-    url "https://github.com/mackerelio/mkr.git"
+    url "https://github.com/mackerelio/mkr.git", branch: "master"
     depends_on "git" => :build
     depends_on "go" => :build
     depends_on "mercurial" => :build

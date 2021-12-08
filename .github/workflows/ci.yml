@@ -26,5 +26,5 @@ jobs:
         if: steps.cache.outputs.cache-hit != 'true'
         run: brew install-bundler-gems
       # Here we can run various brew tasks
-      - run: brew style ${{ github.repository }} || true
+      - run: brew style ${{ github.repository }}/mkr || true
       - run: brew audit --strict --online ${{ github.repository }}/mkr

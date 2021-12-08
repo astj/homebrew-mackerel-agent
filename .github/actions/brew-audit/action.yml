@@ -17,8 +17,5 @@ runs:
         path: ${{ steps.set-up-homebrew.outputs.gems-path }}
         key: ${{ runner.os }}-rubygems-${{ steps.set-up-homebrew.outputs.gems-hash }}
         restore-keys: ${{ runner.os }}-rubygems-
-    - if: steps.cache.outputs.cache-hit != 'true'
-      run: brew install-bundler-gems
-      shell: bash
     - run: brew audit --strict --online ${{ github.repository }}/${{ inputs.formula }}
       shell: bash

@@ -15,7 +15,7 @@ class MackerelAgent < Formula
   end
 
   head do
-    url "https://github.com/mackerelio/mackerel-agent.git"
+    url "https://github.com/mackerelio/mackerel-agent.git", branch: "master"
     depends_on "git" => :build
     depends_on "go" => :build
     depends_on "mercurial" => :build

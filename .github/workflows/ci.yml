@@ -7,6 +7,7 @@ jobs:
   audit:
     runs-on: macos-latest
     strategy:
+      fail-fast: false
       matrix:
         formula:
           - mkr
@@ -29,6 +30,7 @@ jobs:
   test:
     runs-on: macos-latest
     strategy:
+      fail-fast: false
       matrix:
         formula:
           - mkr

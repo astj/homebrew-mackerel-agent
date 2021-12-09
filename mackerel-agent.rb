@@ -1,7 +1,9 @@
 # typed: false
 # frozen_string_literal: true
 
+# Formula to install mackerel-agent.
 class MackerelAgent < Formula
+  desc "Monitoring agent for https://mackerel.io/"
   homepage "https://github.com/mackerelio/mackerel-agent"
   version "0.72.5"
   if Hardware::CPU.arm?

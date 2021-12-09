@@ -7,31 +7,53 @@ on:
       #- master
 
 jobs:
-  audit-mkr:
+  audit:
+    name: Audit formula
     runs-on: macos-latest
+    strategy:
+      matrix:
+        formula:
+          - mkr
+          - mackerel-agent
     steps:
-      - uses: actions/checkout@v2
-      - uses: ./.github/actions/brew-audit
+      # https://github.com/Homebrew/actions/tree/master/setup-homebrew
+      # This will clone this repo into $(brew --repo "$GITHUB_REPOSITORY")
+      - name: Set up Homebrew
+        id: set-up-homebrew
+        uses: Homebrew/actions/setup-homebrew@master
+      - name: Cache Homebrew Bundler RubyGems
+        id: cache
+        uses: actions/cache@v1
         with:
-          formula: mkr
-  test-mkr:
+          path: ${{ steps.set-up-homebrew.outputs.gems-path }}
+          key: ${{ runner.os }}-rubygems-${{ steps.set-up-homebrew.outputs.gems-hash }}
+          restore-keys: ${{ runner.os }}-rubygems-
+      - name: Run `brew audit`
+        run: brew audit --strict --online ${{ github.repository }}/${{ matrix.formula }}
+  test:
+    name: Test formula
     runs-on: macos-latest
+    strategy:
+      matrix:
+        formula:
+          - mkr
+          - mackerel-agent
     steps:
-      - uses: actions/checkout@v2
-      - uses: ./.github/actions/brew-test
+      # https://github.com/Homebrew/actions/tree/master/setup-homebrew
+      # This will clone this repo into $(brew --repo "$GITHUB_REPOSITORY")
+      - name: Set up Homebrew
+        id: set-up-homebrew
+        uses: Homebrew/actions/setup-homebrew@master
+      - name: Cache Homebrew Bundler RubyGems
+        id: cache
+        uses: actions/cache@v1
         with:
-          formula: mkr
-  audit-mackerel-agent:
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: ./.github/actions/brew-audit
-        with:
-          formula: mackerel-agent
-  test-mackerel-agent:
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: ./.github/actions/brew-test
-        with:
-          formula: mackerel-agent
+          path: ${{ steps.set-up-homebrew.outputs.gems-path }}
+          key: ${{ runner.os }}-rubygems-${{ steps.set-up-homebrew.outputs.gems-hash }}
+          restore-keys: ${{ runner.os }}-rubygems-
+      - name: Install the Formula
+        run: brew install ${{ github.repository }}/${{ matrix.formula }}
+        shell: bash
+      - name: Test the Formula
+        run: brew test ${{ github.repository }}/${{ matrix.formula }}
+        shell: bash

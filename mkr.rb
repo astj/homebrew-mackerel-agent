@@ -3,7 +3,7 @@
 
 # Formula to install mkr CLI tool.
 class Mkr < Formula
-  desc "Formula to install mkr CLI"
+  desc "CLI tool for https://mackerel.io/"
   homepage "https://github.com/mackerelio/mkr"
   version "0.46.0"
   if Hardware::CPU.arm?

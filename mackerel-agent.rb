@@ -23,15 +23,13 @@ class MackerelAgent < Formula
 
   def install
     if build.head?
-      ENV["GOPATH"] = buildpath/".go"
-      mkdir_p buildpath/".go/src/github.com/mackerelio"
-      ln_s buildpath, buildpath/".go/src/github.com/mackerelio/mackerel-agent"
       system "make", "build"
       bin.install "build/mackerel-agent"
+      etc.install "mackerel-agent.sample.conf" => "mackerel-agent.conf"
     else
       bin.install "mackerel-agent"
+      etc.install "mackerel-agent.conf"
     end
-    etc.install "mackerel-agent.conf"
     mkdir_p "#{var}/mackerel-agent"
   end
 

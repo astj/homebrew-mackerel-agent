@@ -71,6 +71,6 @@ class MackerelAgent < Formula
   end
 
   test do
-    system "mackerel-agent", "-version"
+    system "mackerel-agent", "version"
   end
 end

@@ -1,10 +1,7 @@
 name: Formula
 
 on:
-  push:
-    branches:
-      - "add-ci"
-      #- master
+  - push
 
 jobs:
   audit:
